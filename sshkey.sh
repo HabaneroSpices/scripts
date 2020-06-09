@@ -1,5 +1,5 @@
 #/bin/bash
-# Adds every key in foreign-keys to authorized_keys
+# Adds every key in ./keys/ to ./authorized_keys
 
 sshDir="/home/spices/.ssh"
 section="sshkey"
@@ -11,7 +11,7 @@ cd $sshDir
 
 function scrape() {
   i=0
-  for filename in keys/*@id_rsa.pub; do
+  for filename in keys/*@id_*.pub; do
 	allKeys[$i]=$filename
 	((i++))
   done
