@@ -1,7 +1,7 @@
 #/bin/bash
 # Adds every key in ./keys/ to ./authorized_keys
 
-sshDir="/home/spices/.ssh"
+sshDir=~/.ssh
 section="sshkey"
 auth="authorized_keys"
 authTmp="${auth}.out.tmp"
