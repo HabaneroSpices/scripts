@@ -13,12 +13,14 @@ function elevatePriv() {
   sudo -v
   if ! checkPriv; then echo "[-] This script requires sudo privledges" && exit; fi
 }
+function stCh() {
+  if ! $status; then echo "[-] Failed to install $path to $newpath" && exit; fi
+}
 function install() {
   newpath="${bin}${filename}"
   echo "[*] Installing $path > $newpath"
-  sudo chmod +x $path 2>&1 && status="true" || status="false"
-  sudo cp $path $newpath 2>&1 && status="true" || status="false"
-  if ! $status; then echo "[-] Failed to install $path to $newpath" && exit; fi
+  sudo chmod +x $path 2>&1 && status="true" || status="false" && stCh
+  sudo cp $path $newpath 2>&1 && status="true" || status="false" && stCh
   echo "[+] Successfully installed $filename"
 }
 
