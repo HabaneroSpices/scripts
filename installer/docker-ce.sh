@@ -11,8 +11,9 @@ install() {
     sudo rm -f /tmp/get-docker.sh
     echo '[!] Run docker without root?'
     read -p '[Y/n]: ' choice
-    if [! '$choice' -eq Y ]; then exit;
-    sudo usermod -aG docker $USER
+    case $choice in [nN]* ) exit;; esac
+    echo "[*] Adding $USER to docker group"
+    sudo usermod -aG docker "$USER"
 }
 
 case $1 in
@@ -27,5 +28,4 @@ fuck)
 *)
     echo "Usage... $0 (easy|fuck)"
     ;;
-
 esac
