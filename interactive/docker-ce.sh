@@ -1,14 +1,34 @@
 #!/bin/bash
 #
+# VAR
+tmpDir=/tmp/get-docker-54631
 
+# ERRH
+set -Eeo pipefail
+trap notify ERR
+trap cleanup EXIT
+
+function notify {
+  echo "Somthing went wrong!"
+  echo "${LINENO}: ${BASH_COMMAND}"
+}
+function cleanup {
+  if [ -d "$tmpDir" ]; then
+  rm -r $tmpDir
+  fi
+}
+ 
+if ! [ -d "$tmpDir" ]; then mkdir $tmpDir; fi
+cd $tmpDir
+
+#MAIN
 install() {
     sudo -v
     echo '[*] Downloading...'
-    curl -fsSL https://get.docker.com -o /tmp/get-docker.sh.tmp
+    curl -fsSL https://get.docker.com -o get-docker.sh
     echo '[*] Installing...'
-    sudo sh /tmp/get-docker.sh.tmp
-    echo '[*] Cleaning up...'
-    sudo rm -f /tmp/get-docker.sh
+    sudo dpkg --configure -a >&-
+    sudo sh get-docker.sh
     echo '[!] Run docker without root?'
     read -p '[Y/n]: ' choice
     case $choice in [nN]* ) exit;; esac
@@ -16,16 +36,18 @@ install() {
     sudo usermod -aG docker "$USER"
 }
 
+# START
 case $1 in
 
-easy)
+"easy")
     install
     echo "Done."
     ;;
-fuck)
+"haha")
     echo "Asshole. ouff"
     ;;
 *)
-    echo "Usage... $0 (easy|fuck)"
+    echo "Usage... $0 (easy|haha)"
     ;;
 esac
+exit
