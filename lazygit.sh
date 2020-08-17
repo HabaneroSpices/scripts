@@ -3,7 +3,7 @@
 git add .
 case $* in
 "")
-  git commit -a -m "Update"
+  git commit -a -m "Lazygit"
   ;;
 *)
   git commit -a -m "$*"

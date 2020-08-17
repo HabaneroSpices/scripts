@@ -1,0 +1,11 @@
+[Unit]
+Description=USC Multiplayer Server Version 1.4.0
+After=network.target
+
+[Service]
+Type=idle
+ExecStart=bash /srv/usc-server/uscsrv.sh
+
+[Install]
+WantedBy=multi-user.target
+
