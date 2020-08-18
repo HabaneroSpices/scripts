@@ -1,7 +1,25 @@
 #!/bin/bash
 # Docker launch script for Minecraft Spigot
 
+banner() {
+cat << "EOF"
+.        :     .,-:::::
+;;,.    ;;;  ,;;;'````'
+[[[[, ,[[[[, [[[
+$$$$$$$$"$$$ $$$
+888 Y88" 888o`88bo,__,o,
+MMM  M'  "MMM  "YUMMMMMP"
+:::::::-.      ...       .,-:::::  :::  .   .,:::::: :::::::..
+ ;;,   `';, .;;;;;;;.  ,;;;'````'  ;;; .;;,.;;;;'''' ;;;;``;;;;
+ `[[     [[,[[     \[[,[[[         [[[[[/'   [[cccc   [[[,/[[['
+  $$,    $$$$$,     $$$$$$        _$$$$,     $$""""   $$$$$$c
+  888_,o8P'"888,_ _,88P`88bo,__,o,"888"88o,  888oo,__ 888b "88bo,
+  MMMMP"`    "YMMMMMP"   "YUMMMMMP"MMM "MMP" """"YUMMMMMMM   "W"
+EOF
+}
+
 if [ ! -d "$PWD/data/" ]; then
+	banner
 	echo "MC Server is not setup - setup now? [y/N]"
 	read input0
 	if [[ ! "$input0" = "y" ]]; then

@@ -1,11 +1,29 @@
 #!/bin/bash
 # Start script for Terraria Server using podman
 
+banner() {
+cat << "EOF"
+::::::::::::.,:::::: :::::::..  :::::::..    :::.    :::::::..   :::  :::.
+;;;;;;;;'''';;;;'''' ;;;;``;;;; ;;;;``;;;;   ;;`;;   ;;;;``;;;;  ;;;  ;;`;;
+     [[      [[cccc   [[[,/[[['  [[[,/[[['  ,[[ '[[,  [[[,/[[['  [[[ ,[[ '[[,
+     $$      $$""""   $$$$$$c    $$$$$$c   c$$$cc$$$c $$$$$$c    $$$c$$$cc$$$c
+     88,     888oo,__ 888b "88bo,888b "88bo,888   888,888b "88bo,888 888   888,
+     MMM     """"YUMMMMMMM   "W" MMMM   "W" YMM   ""` MMMM   "W" MMM YMM   ""`
+::::::::::.    ...    :::::::-.  .        :    :::.   :::.    :::.
+ `;;;```.;;;.;;;;;;;.  ;;,   `';,;;,.    ;;;   ;;`;;  `;;;;,  `;;;
+  `]]nnn]]',[[     \[[,`[[     [[[[[[, ,[[[[, ,[[ '[[,  [[[[[. '[[
+   $$$""   $$$,     $$$ $$,    $$$$$$$$$$"$$$c$$$cc$$$c $$$ "Y$c$$
+   888o    "888,_ _,88P 888_,o8P'888 Y88" 888o888   888,888    Y88
+   YMMMb     "YMMMMMP"  MMMMP"`  MMM  M'  "MMMYMM   ""` MMM     YM
+EOF
+}
+
 WORLDDIR=$PWD/world
 
 check_server() {
 if [ ! -d $WORLDDIR ]; then
-        echo "No world found - Create one now? [y/N]"
+	banner
+	echo "No world found - Create one now? [y/N]"
         read input0
         if [[ ! "$input0" == "y" ]]; then
                 echo "Exiting"
@@ -25,6 +43,9 @@ sudo podman stop terraria
 exit 1
 }
 reset_server() {
+sudo podman stop terraria
+sudo rm -r $WORLDDIR
+echo "Please rerun this script to generator a new world"
 exit 1
 }
 interact_server() {

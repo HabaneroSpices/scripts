@@ -1,7 +1,25 @@
 #/bin/bash
 # Docker launch script for Minecraft Vanilla - ported to podman
 
+banner() {
+cat << "EOF"
+.        :     .,-:::::
+;;,.    ;;;  ,;;;'````'
+[[[[, ,[[[[, [[[
+$$$$$$$$"$$$ $$$
+888 Y88" 888o`88bo,__,o,
+MMM  M'  "MMM  "YUMMMMMP"
+::::::::::.    ...    :::::::-.  .        :    :::.   :::.    :::.
+ `;;;```.;;;.;;;;;;;.  ;;,   `';,;;,.    ;;;   ;;`;;  `;;;;,  `;;;
+  `]]nnn]]',[[     \[[,`[[     [[[[[[, ,[[[[, ,[[ '[[,  [[[[[. '[[
+   $$$""   $$$,     $$$ $$,    $$$$$$$$$$"$$$c$$$cc$$$c $$$ "Y$c$$
+   888o    "888,_ _,88P 888_,o8P'888 Y88" 888o888   888,888    Y88
+   YMMMb     "YMMMMMP"  MMMMP"`  MMM  M'  "MMMYMM   ""` MMM     YM
+EOF
+}
+
 if [ ! -d "$PWD/data/" ]; then
+	banner
 	echo "MC Server is not setup - setup now? [y/N]"
 	read input0
 	if [[ ! "$input0" = "y" ]]; then

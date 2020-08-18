@@ -1,10 +1,28 @@
 #!/bin/bash
 # Docker script for starting and setting up a terraria server
 
+banner() {
+cat << "EOF"
+::::::::::::.,:::::: :::::::..  :::::::..    :::.    :::::::..   :::  :::.
+;;;;;;;;'''';;;;'''' ;;;;``;;;; ;;;;``;;;;   ;;`;;   ;;;;``;;;;  ;;;  ;;`;;
+     [[      [[cccc   [[[,/[[['  [[[,/[[['  ,[[ '[[,  [[[,/[[['  [[[ ,[[ '[[,
+     $$      $$""""   $$$$$$c    $$$$$$c   c$$$cc$$$c $$$$$$c    $$$c$$$cc$$$c
+     88,     888oo,__ 888b "88bo,888b "88bo,888   888,888b "88bo,888 888   888,
+     MMM     """"YUMMMMMMM   "W" MMMM   "W" YMM   ""` MMMM   "W" MMM YMM   ""`
+:::::::-.      ...       .,-:::::  :::  .   .,:::::: :::::::..
+ ;;,   `';, .;;;;;;;.  ,;;;'````'  ;;; .;;,.;;;;'''' ;;;;``;;;;
+ `[[     [[,[[     \[[,[[[         [[[[[/'   [[cccc   [[[,/[[['
+  $$,    $$$$$,     $$$$$$        _$$$$,     $$""""   $$$$$$c
+  888_,o8P'"888,_ _,88P`88bo,__,o,"888"88o,  888oo,__ 888b "88bo,
+  MMMMP"`    "YMMMMMP"   "YUMMMMMP"MMM "MMP" """"YUMMMMMMM   "W"
+EOF
+}
+
 WORLDDIR=$PWD/world
 
 check_server() {
 if [ ! -d $WORLDDIR ]; then
+ 	banner
         echo "No world found - Create one now? [y/N]"
         read input0
         if [[ ! "$input0" == "y" ]]; then
@@ -25,6 +43,9 @@ sudo docker stop terraria
 exit 1
 }
 reset_server() {
+sudo docker stop terraria
+sudo rm -r $WORLDDIR
+echo "Please rerun this script to generate a new world"
 exit 1
 }
 interact_server() {
