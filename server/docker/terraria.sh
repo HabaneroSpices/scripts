@@ -30,7 +30,7 @@ if [ ! -d $WORLDDIR ]; then
                 exit 1
         fi
         mkdir -p $WORLDDIR
-sudo docker run --name terraria -it -p 7777:7777 --rm -v $WORLDDIR:/root/.local/share/Terraria/Worlds ryshe/terraria:latest -world /root/.local/share/Terraria/Worlds/world.wld -autocreate 2
+sudo docker run --name terraria -it -p 7777:7777 --memory "4g" --rm -v $WORLDDIR:/root/.local/share/Terraria/Worlds ryshe/terraria:latest -world /root/.local/share/Terraria/Worlds/world.wld -autocreate 2
 fi
 }
 start_server() {

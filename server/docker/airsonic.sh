@@ -23,7 +23,7 @@ if [ ! -d "$DATADIR" ]; then
 		exit 1
 	fi
 	mkdir -p $DATADIR $MUSICDIR $PLAYLISTDIR $PODCASTDIR
-	docker run --name airsonic -v $DATADIR:/airsonic/data -v $MUSICDIR:/airsonic/music -v $PLAYLISTDIR:/airsonic/playlists -v $PODCASTDIR:/airsonic/podcasts -p 4040:4040 -d airsonic/airsonic
+	docker run --name airsonic --memory "4g" -v $DATADIR:/airsonic/data -v $MUSICDIR:/airsonic/music -v $PLAYLISTDIR:/airsonic/playlists -v $PODCASTDIR:/airsonic/podcasts -p 4040:4040 -d airsonic/airsonic
 fi
 case $1 in
 "start")
