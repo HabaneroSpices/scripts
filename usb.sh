@@ -5,6 +5,7 @@
 USBID="sdb1"
 USBINT=/mnt/usb-device/
 USBUSR=/home/madsc/usb-device/
+SCRNM=`basename "$0"`
 sudo -v
 
 case $1 in
@@ -21,6 +22,6 @@ case $1 in
 		#unlink ${USBUSR}
 		;;
 	*)
-		echo "Usage: $0... (mount|eject)"
+		echo "Usage: $SCRNM... (mount|eject)"
 		;;
 esac

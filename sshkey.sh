@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 # Adds every key in ./keys/ to ./authorized_keys
 
 sshDir=~/.ssh
@@ -6,7 +6,7 @@ section="sshkey"
 auth="authorized_keys"
 authTmp="${auth}.out.tmp"
 allKeys=[]
-
+scrnm=`basename "$0"`
 cd $sshDir
 
 function scrape() {
@@ -46,7 +46,7 @@ case ${1} in
    write
    ;;
 *)
-   echo "Usage... ${0} (add|remove)"
+   echo "Usage: ${scrnm}... (add|remove)"
 esac
 
 exit
