@@ -31,9 +31,9 @@ mkdir $PWD/data/
 echo "MC Version? (empty for latest)"
 read input1
 if [ "$input1" == "" ]; then
-sudo docker run -e EULA=TRUE -e ENABLE_AUTOPAUSE=TRUE --memory "4g" -d -v $PWD/data:/data -p 25565:25565 --name mc itzg/minecraft-server
+sudo docker run -e EULA=TRUE --memory "4g" -d -v $PWD/data:/data -p 25565:25565 --name mc itzg/minecraft-server
 else
-sudo docker run -e VERSION="$input1" -e EULA=TRUE -e ENABLE_AUTOPAUSE=TRUE --memory "4g" -d -v $PWD/data:/data -p 25565:25565 --name mc itzg/minecraft-server
+sudo docker run -e VERSION="$input1" -e EULA=TRUE --memory "4g" -d -v $PWD/data:/data -p 25565:25565 --name mc itzg/minecraft-server
 fi
 fi
 case $1 in

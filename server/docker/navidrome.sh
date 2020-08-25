@@ -33,7 +33,6 @@ docker stop navidrome
 "reset")
 sudo docker stop navidrome
 sudo docker rm navidrome
-sudo docker rmi deluan/navidrome:develop
 ;;
 *)
 echo "Usage: $SCRIPTNAME... (start|stop|reset)"
