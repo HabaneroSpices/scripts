@@ -1,5 +1,5 @@
 #!/bin/bash
-# Deemix docker script - v1.5
+# Deemix docker script - v1.5 - podman port
 
 SCRIPTNAME=`basename "$0"`
 DOWNLOADSDIR=$PWD/music
@@ -8,7 +8,7 @@ IMAGENAME=registry.gitlab.com/bockiii/deemix-docker
 ARL="ARL_GOES_HERE"
 
 setup_docker() {
-docker run --name deemix -e ARL=$ARL -e UMASK_SET=022 -v $DOWNLOADSDIR:/downloads -v $CONFIGDIR:/config -p 6595:6595 -d $IMAGENAME
+sudo podman run --name deemix -e ARL=$ARL -e UMASK_SET=022 -v $DOWNLOADSDIR:/downloads -v $CONFIGDIR:/config -p 6595:6595 -d $IMAGENAME
 }
 
 banner() {
@@ -34,15 +34,15 @@ if [ ! -d "$CONFIGDIR" ]; then
 fi
 case $1 in
 "start")
-docker start deemix
+sudo podman start deemix
 ;;
 "stop")
-docker stop deemix
+sudo podman stop deemix
 ;;
 "reset")
-docker stop deemix
-docker rm deemix
-docker rmi $IMAGENAME
+sudo podman stop deemix
+sudo podman rm deemix
+sudo podman rmi $IMAGENAME
 setup_docker
 ;;
 *)

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Navidrome docker script - v1.5
+# Navidrome docker script - v1.5 - podman port
 
 SCRIPTNAME=`basename "$0"`
 DATADIR=$PWD/data
@@ -7,7 +7,7 @@ MUSICDIR=$PWD/music
 IMAGENAME=deluan/navidrome:develop
 
 setup_docker() {
-docker run --name navidrome --memory "4g" -v $DATADIR:/data -v $MUSICDIR:/music:ro -e ND_BASEURL=/navidrome -e ND_ENABLETRANSCODINGCONFIG=true -p 4533:4533 -d $IMAGENAME
+sudo podman run --name navidrome --memory "4g" -v $DATADIR:/data -v $MUSICDIR:/music:ro -e ND_BASEURL=/navidrome -e ND_ENABLETRANSCODINGCONFIG=true -p 4533:4533 -d $IMAGENAME
 }
 
 banner() {
@@ -31,15 +31,15 @@ if [ ! -d "$DATADIR" ]; then
 fi
 case $1 in
 "start")
-docker start navidrome
+sudo podman start navidrome
 ;;
 "stop")
-docker stop navidrome
+sudo podman stop navidrome
 ;;
 "reset")
-docker stop navidrome
-docker rm navidrome
-docker rmi $IMAGENAME
+sudo podman stop navidrome
+sudo podman rm navidrome
+sudo podman rmi $IMAGENAME
 setup_docker
 ;;
 *)
