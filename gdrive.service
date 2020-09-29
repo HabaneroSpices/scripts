@@ -1,0 +1,13 @@
+[Unit]
+Description=rclone for gdrive
+After=networking.service
+
+[Service]
+Type=simple
+User=madsc
+ExecStart=rclone mount gdrive:/ /home/madsc/mnt/gdrive --allow-other --fast-list --poll-interval 10m
+ExecStop=fusermount -u ~/mnt/gdrive
+
+[Install]
+WantedBy=default.target
+
