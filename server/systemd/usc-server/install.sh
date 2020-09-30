@@ -1,6 +1,7 @@
 #!/bin/bash
 # Installs service file for systemd
 
-sudo ln $PWD/usc-server.service /lib/systemd/system/
-
+sudo cp $PWD/usc-server.service /etc/systemd/system/
+$PWD/update.sh
+sudo systemctl daemon-reload
 exit 1
