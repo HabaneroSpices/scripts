@@ -1,0 +1,40 @@
+#!/bin/bash
+# The Purpose of this script is to replicate the "Enable server configuration" function in Apache2# .
+
+
+error="💢"
+warning="⚠️"
+info="ℹ️"
+success="✅"
+
+configAvailPath=/etc/nginx/sites-available
+configEnPath=/etc/nginx/sites-enabled
+
+configInput=${1}
+
+function checkPriv() {
+  sudo -nv 2> /dev/null && true || false
+}
+function elevatePriv() {
+  echo "[$warning] Warning - This script requires elevation"
+  sudo -v # Try to obtain elevation through sudo command to extend sudo timer
+  if ! checkPriv; then echo -e "\n[$error] Error - Could not obtain sufficient elevation." && exit; fi
+}
+function enableConfig() {
+sudo ln -s $configAvailPath/$configInput $configEnPath/$configInput 2> /dev/null && true || false # If the site is available and not enabled -- Symbolic link the config to enable it.
+}
+
+# Running Code
+if [ -z $configInput ]; then echo -e "\n[$error] Error - At least one argument is required. Eg. nginx_en default" && exit; fi
+
+if ! checkPriv; then elevatePriv; fi
+
+if ! [ -f "$configAvailPath/$configInput" ]; then echo -e "\n[$error] Error - Could not find $configInput." && exit; fi
+
+if [ -f "$configEnPath/$configInput" ]; then echo -e "\n[$warning] Warning - Site $configInput is already enabled.\n[$info] Info - To disable the site, please run: nginx_dis $configInput" && exit; fi
+
+if ! enableConfig; then echo -e "\n[$error] Error - Could not create a symbolic link." && exit; fi
+
+echo -e "\n[$success] - $configInput enabled!"
+
+exit

@@ -1,5 +1,7 @@
-#/bin/bash
+#!/usr/bin/env bash
+#
 # Add, commit, push
+#
 git add .
 case $* in
 "")
@@ -10,4 +12,3 @@ case $* in
 	;;
 esac
 git push
-exit

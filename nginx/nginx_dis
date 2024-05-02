@@ -1,0 +1,38 @@
+#!/bin/bash
+# The Purpose of this script is to replicate the "Disable server configuration" function in Apache2# .
+
+
+error="💢"
+warning="⚠️"
+info="ℹ️"
+success="✅"
+
+configAvailPath=/etc/nginx/sites-available
+configEnPath=/etc/nginx/sites-enabled
+
+configInput=${1}
+
+function checkPriv() {
+  sudo -nv 2> /dev/null && true || false
+}
+function elevatePriv() {
+  echo "[$warning] Warning - This script requires elevation"
+  sudo -v # Try to obtain elevation through sudo command to extend sudo timer
+  if ! checkPriv; then echo -e "\n[$error] Error - Could not obtain sufficient elevation." && exit; fi
+}
+function enableConfig() {
+sudo unlink $configEnPath/$configInput 2> /dev/null && true || false # If the site is enabled -- unlink the config to disable it.
+}
+
+# Running Code
+if [ -z $configInput ]; then echo -e "\n[$error] Error - At least one argument is required. Eg. nginx_dis default" && exit; fi
+
+if ! checkPriv; then elevatePriv; fi
+
+if ! [ -f "$configEnPath/$configInput" ]; then echo -e "\n[$error] Error - Could not find $configInput. Maybe it's already disabled?" && exit; fi
+
+if ! enableConfig; then echo -e "\n[$error] Error - Could not unlink the config file." && exit; fi
+
+echo -e "\n[$success] - $configInput disabled!"
+
+exit
