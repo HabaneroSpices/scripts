@@ -43,17 +43,17 @@ set -o pipefail
 set -C
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
-DIR_NAME=$(basename "${DIR}"
+DIR_NAME=$(basename "${DIR}")
 SCRIPT_NAME=$(basename "${0}")
 
 lockfile="/tmp/${DIR_NAME}.lock"
-if echo "$$" > "$lockfile"; then
-    echo "Successfully acquired lock"
-		main "${@}"
-    rm "$lockfile"    # XXX or via trap - see below
+if echo "$$" >"$lockfile"; then
+	echo "Successfully acquired lock"
+	main "${@}"
+	rm "$lockfile" # XXX or via trap - see below
 else
-    echo "Cannot acquire lock - already locked by $(cat "$lockfile")"
-    exit 1
+	echo "Cannot acquire lock - already locked by $(cat "$lockfile")"
+	exit 1
 fi
 
 exit $?
