@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 #
-
+# Keep any github repo up-to-date with remote-upstream.
+# Use together with cron like: * * * * * /usr/bin/bash /path/to/repo/update.sh
+#
+# Features:
+# - Run lock, script will never run twice.
+# - Automatic stashing
+#
 function main() {
 	cd $DIR
 	log "Fetching remote repository..."
@@ -50,7 +56,7 @@ lockfile="/tmp/${DIR_NAME}.lock"
 if echo "$$" >"$lockfile"; then
 	log "Successfully acquired lock"
 	main "${@}"
-	rm "$lockfile" # XXX or via trap - see below
+	rm "$lockfile"
 else
 	log "Cannot acquire lock - already locked by $(cat "$lockfile")"
 	exit 1
