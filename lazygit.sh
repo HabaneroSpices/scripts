@@ -11,4 +11,3 @@ case $* in
 esac
 git push
 exit
-s
