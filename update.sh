@@ -48,11 +48,11 @@ SCRIPT_NAME=$(basename "${0}")
 
 lockfile="/tmp/${DIR_NAME}.lock"
 if echo "$$" >"$lockfile"; then
-	echo "Successfully acquired lock"
+	log "Successfully acquired lock"
 	main "${@}"
 	rm "$lockfile" # XXX or via trap - see below
 else
-	echo "Cannot acquire lock - already locked by $(cat "$lockfile")"
+	log "Cannot acquire lock - already locked by $(cat "$lockfile")"
 	exit 1
 fi
 
