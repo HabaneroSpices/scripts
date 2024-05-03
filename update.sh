@@ -42,6 +42,10 @@ function log() {
 	echo "${TIMESTAMP}: ${*}"
 }
 
+function on-exit() {
+	rm "$lockfile"
+}
+
 # Execution
 
 set -e
@@ -52,11 +56,12 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 DIR_NAME=$(basename "${DIR}")
 SCRIPT_NAME=$(basename "${0}")
 
+trap on-exit SIGINT SIGTERM EXIT ERR
+
 lockfile="/tmp/${DIR_NAME}.lock"
 if echo "$$" >"$lockfile"; then
 	log "Successfully acquired lock"
 	main "${@}"
-	rm "$lockfile"
 else
 	log "Cannot acquire lock - already locked by $(cat "$lockfile")"
 	exit 1
