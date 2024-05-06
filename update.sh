@@ -14,8 +14,10 @@ function main() {
 		isCron=$()
 		if crontab -l | grep $DIR/update.sh > /dev/null; then
 		log "Cronjob for `pwd`/update.sh already configured"
+		exit 0
 		else
 		crontab -l | { cat; echo "* * * * * /usr/bin/bash `pwd`/update.sh"; } | crontab - && log "Added cronjob for `pwd`/update.sh" || log "Could not add cronjob for `pwd`/update.sh"
+		exit 0
 		fi
 	fi
 
