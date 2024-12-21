@@ -5,6 +5,7 @@
 #
 
 version=1.1.1
+remote_url="https://raw.githubusercontent.com/HabaneroSpices/scripts/refs/heads/master/hardlink-files.sh"
 
 _usage() {
   cat <<USAGE
@@ -43,21 +44,22 @@ HELP
 check_for_update() {
 mapfile -t local_version < <(echo "$version" | tr "." "\n")
 
-remote_version_line=$(curl -Ls https://raw.githubusercontent.com/HabaneroSpices/scripts/refs/heads/master/version-test.sh | grep -e "^version=[0-9]\+\.[0-9]\+\.[0-9]\+$")
+remote_version_resp=$(curl -Ls "$remote_url" | grep -e "^version=[0-9]\+\.[0-9]\+\.[0-9]\+$")
 
-if [[ -z $remote_version_line ]]; then
+if [[ -z $remote_version_resp ]]; then
   echo "Failed to fetch remote version."
-  exit 1
+  return 1
 fi
 
-remote_version=$(echo "$remote_version_line" | sed 's/version=//')
+remote_version=$(echo "$remote_version_resp" | sed 's/version=//')
 mapfile -t remote_version < <(echo "$remote_version" | tr "." "\n")
 
 for i in {1..2}
 do
         if [[ ${remote_version[i]} -gt ${local_version[i]} ]]
         then
-                printf "Update available.\nRemote version: %s, local version: %s\n" "$(echo "${remote_version[*]}" | tr " " ".")" "$(echo "${local_version[*]}" | tr " " ".")"
+                printf "Update available.\n%s\n" "$remote_url"
+                # Remote version: %s, local version: %s\n" "$(echo "${remote_version[*]}" | tr " " ".")" "$(echo "${local_version[*]}" | tr " " ".")"
                 return 0
         elif [[ ${remote_version[i]} -lt ${local_version[i]} ]]
         then
