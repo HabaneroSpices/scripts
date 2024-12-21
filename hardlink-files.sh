@@ -4,7 +4,7 @@
 # then hardlink each file from source to the destination
 #
 
-version=1.1.0
+version=1.1.1
 
 _usage() {
   cat <<USAGE
@@ -41,7 +41,29 @@ HELP
 }
 
 check_for_update() {
-return
+mapfile -t local_version < <(echo "$version" | tr "." "\n")
+
+remote_version_line=$(curl -Ls https://raw.githubusercontent.com/HabaneroSpices/scripts/refs/heads/master/version-test.sh | grep -e "^version=[0-9]\+\.[0-9]\+\.[0-9]\+$")
+
+if [[ -z $remote_version_line ]]; then
+  echo "Failed to fetch remote version."
+  exit 1
+fi
+
+remote_version=$(echo "$remote_version_line" | sed 's/version=//')
+mapfile -t remote_version < <(echo "$remote_version" | tr "." "\n")
+
+for i in {1..2}
+do
+        if [[ ${remote_version[i]} -gt ${local_version[i]} ]]
+        then
+                printf "Update available.\nRemote version: %s, local version: %s\n" "$(echo "${remote_version[*]}" | tr " " ".")" "$(echo "${local_version[*]}" | tr " " ".")"
+                return 0
+        elif [[ ${remote_version[i]} -lt ${local_version[i]} ]]
+        then
+                return 0
+        fi
+done
 }
 
 parse_args() {
@@ -66,10 +88,12 @@ do
 done
 }
 
+check_for_update
+
 parse_args "${@}"
 
 if [ ${#args[@]} -lt 2 ]; then
-        printf >&2 "Error: 2 positional parameters required.\n%\n" "$(_usage)"
+        printf >&2 "Error: 2 positional parameters required.\n%s\n" "$(_usage)"
         exit 1
 fi
 
